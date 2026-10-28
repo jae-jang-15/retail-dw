@@ -1,0 +1,35 @@
+models:
+  - name: stg_tpch__orders
+    description: One row per order, with clear column names.
+    columns:
+      - name: order_id
+        data_tests: [unique, not_null]
+      - name: order_status
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["F", "O", "P"]
+
+  - name: stg_tpch__line_items
+    description: One row per product line on an order.
+    columns:
+      - name: order_item_id
+        data_tests: [unique, not_null]
+
+  - name: stg_tpch__customers
+    description: One row per customer.
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+
+  - name: stg_tpch__nations
+    description: One row per country.
+    columns:
+      - name: nation_id
+        data_tests: [unique, not_null]
+
+  - name: stg_tpch__regions
+    description: One row per world region.
+    columns:
+      - name: region_id
+        data_tests: [unique, not_null]

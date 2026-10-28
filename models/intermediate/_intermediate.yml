@@ -1,0 +1,18 @@
+models:
+  - name: int_order_items__priced
+    description: Order lines joined to their order, with the money columns worked out.
+
+unit_tests:
+  - name: test_pricing_math
+    description: A 100.00 line with 10% discount and 5% tax gives net 90.00 and tax 4.50.
+    model: int_order_items__priced
+    given:
+      - input: ref('stg_tpch__line_items')
+        rows:
+          - {order_item_id: "a1", order_id: 1, extended_price: 100.00, discount_rate: 0.10, tax_rate: 0.05}
+      - input: ref('stg_tpch__orders')
+        rows:
+          - {order_id: 1, customer_id: 7}
+    expect:
+      rows:
+        - {order_item_id: "a1", gross_amount: 100.00, discount_amount: 10.00, net_amount: 90.00, tax_amount: 4.50}

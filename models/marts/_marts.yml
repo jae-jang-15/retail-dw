@@ -1,0 +1,45 @@
+models:
+  - name: dim_customers
+    description: One row per customer, with country, region and segment.
+    columns:
+      - name: customer_key
+        description: Generated key that the fact table joins on.
+        data_tests: [unique, not_null]
+      - name: customer_id
+        description: The customer number from the source system.
+        data_tests: [unique, not_null]
+      - name: segment_group
+        description: Business or Consumer, from the market_segments seed file.
+        data_tests: [not_null]
+
+  - name: dim_dates
+    description: One row per calendar day.
+    columns:
+      - name: date_day
+        data_tests: [unique, not_null]
+
+  - name: fct_order_items
+    description: One row per product line on an order. Loaded incrementally.
+    columns:
+      - name: order_item_id
+        data_tests: [unique, not_null]
+      - name: customer_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_key
+      - name: order_date
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_dates')
+                field: date_day
+      - name: net_amount
+        description: Price after discount, before tax.
+        data_tests:
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 0

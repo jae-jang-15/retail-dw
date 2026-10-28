@@ -1,0 +1,17 @@
+sources:
+  - name: tpch
+    description: Raw retail data that ships with every Snowflake account.
+    database: snowflake_sample_data
+    schema: tpch_sf1
+    tables:
+      - name: orders
+        columns:
+          - name: o_orderkey
+            data_tests: [unique, not_null]
+      - name: lineitem
+      - name: customer
+        columns:
+          - name: c_custkey
+            data_tests: [unique, not_null]
+      - name: nation
+      - name: region

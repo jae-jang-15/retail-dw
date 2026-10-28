@@ -1,0 +1,9 @@
+snapshots:
+  - name: snap_customers
+    description: Keeps every past version of a customer row.
+    relation: ref('stg_tpch__customers')
+    config:
+      schema: snapshots
+      unique_key: customer_id
+      strategy: check
+      check_cols: [customer_name, nation_id, market_segment, account_balance]
