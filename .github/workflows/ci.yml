@@ -30,4 +30,5 @@ jobs:
         run: dbt build --target ci
       - name: Delete the throwaway schemas
         if: always()
-        run: dbt run-operation drop_ci_schemas --args "{prefix: $DBT_CI_SCHEMA}" --target ci
+        run: |
+          dbt run-operation drop_ci_schemas --args "{prefix: $DBT_CI_SCHEMA}" --target ci
